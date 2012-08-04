@@ -1,6 +1,7 @@
 require 'eventmachine'
 require 'json'
 require 'evma_httpserver'
+require 'cgi'
 
 class APIServer < EM::Connection
   include EM::HttpServer
