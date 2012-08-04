@@ -12,6 +12,7 @@ class APIServer < EM::Connection
 
   def process_http_request
     params = CGI::parse((@http_query_string || ""))          
+    puts params.inspect
     EM.system("mplayer #{params['sound'][0]}") do |output, status|
       puts "Done"
     end
