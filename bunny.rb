@@ -46,8 +46,8 @@ cl.bind('0.0.0.0', 8282)
 
 
 EventMachine::run {
-      
+  EM.start_server '0.0.0.0', 4568, APIServer      
   read = EventMachine.attach(cl, MusicPlayer) do |c|
-	puts "connect!"
+	  puts "connect!"
 	end
 }
