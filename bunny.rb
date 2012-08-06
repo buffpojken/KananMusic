@@ -15,8 +15,12 @@ class APIServer < EM::Connection
     params = CGI::parse((@http_query_string || ""))          
     puts params.inspect
     EM.system("mplayer #{params['sound'][0]}") do |output, status|
-      puts "Done"
-    end
+      puts "Done - Increasing..."
+      EM.system("php pa.php up") do |output, system|
+        puts "Down!"
+      end
+    end                
+    EM.system("php pa.php down")
     response = EM::DelegatedHttpResponse.new(self)
     response.status = 200
     response.content_type 'text/javascript'     
