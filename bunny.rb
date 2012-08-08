@@ -12,9 +12,13 @@ class APIServer < EM::Connection
   end        
 
   def process_http_request
-    params = CGI::parse((@http_query_string || ""))          
-    puts params.inspect
-    EM.system("mplayer #{params['sound'][0]}") do |output, status|
+    params = CGI::parse((@http_query_string || ""))           
+    if params['sound'][0] && params['sound'][0].match(/mp3/)
+      cmd = "lame --decode #{params['sound'][0]} - | play -"
+    else
+      cmd = "play #{params['sound'][0]}"
+    end
+    EM.system(cmd) do |output, status|
       puts "Done - Increasing..."
       EM.system("php pa.php up") do |output, system|
         puts "Down!"
